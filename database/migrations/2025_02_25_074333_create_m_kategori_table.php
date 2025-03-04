@@ -10,12 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('m_kategori', function (Blueprint $table) {
-            $table->id('kategori_id');
-            $table->string('kategori_kode', 10);
-            $table->string('kategori_nama', 100);
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('m_kategori')) {
+            Schema::create('m_kategori', function (Blueprint $table) {
+                $table->bigIncrements('kategori_id'); // bigint(20) unsigned
+                $table->string('kategori_kode', 10); // varchar(10)
+                $table->string('kategori_nama', 100); // varchar(100)
+                $table->timestamps(); // created_at dan updated_at
+            });
+        }
     }
 
     /**

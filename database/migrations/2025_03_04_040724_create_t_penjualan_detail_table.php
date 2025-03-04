@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        if (!Schema::hasTable('t_penjualan_detail')) {
+            Schema::create('t_penjualan_detail', function (Blueprint $table) {
+                $table->id('detail_id'); // Primary key
+                $table->unsignedBigInteger('penjualan_id'); // Foreign key
+                $table->unsignedBigInteger('barang_id'); // Foreign key
+                $table->integer('harga'); // Harga
+                $table->integer('jumlah'); // Jumlah
+                $table->timestamps(); // created_at dan updated_at
+
+                // Menambahkan foreign key
+                $table->foreign('penjualan_id')->references('penjualan_id')->on('t_penjualan')->onDelete('cascade');
+                $table->foreign('barang_id')->references('barang_id')->on('m_barang')->onDelete('cascade');
+            });
+        }
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('t_penjualan_detail');
+    }
+};
